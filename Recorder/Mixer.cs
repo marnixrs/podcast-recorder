@@ -29,9 +29,10 @@ namespace Recorder
             MediaFoundationApi.Startup();
         }
 
+        /// <summary>
+        /// Mixes two mp3 files to a single wav file.
+        /// </summary>
         public void mixMp3() {
-            //window.lockForMixing();
-
             Mp3FileReader reader1 = new Mp3FileReader(file1);
             Mp3FileReader reader2 = new Mp3FileReader(file2);
             int maxSampleRate = Math.Max(reader1.WaveFormat.SampleRate, reader2.WaveFormat.SampleRate);
@@ -52,12 +53,11 @@ namespace Recorder
             reader2.Close();
             reader2.Dispose();
 
-            //window.unlock();
-
-            
-
         }
 
+        /// <summary>
+        /// Mixes two wav files to a single wav file. (Unused).
+        /// </summary>
         public void mix() {
             window.lockForMixing();
 

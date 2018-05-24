@@ -36,6 +36,9 @@ namespace Recorder
             isMixing = false;
         }
 
+        /// <summary>
+        /// Checks if a path for Levelator has been set, and if the file exists. If so, buttons are enabled. 
+        /// </summary>
         private void checkLevelatorStatus() {
             string path = Properties.Settings.Default.LevelatorPath;
             if (path != "" && path != null)
@@ -60,6 +63,11 @@ namespace Recorder
             }
         }
 
+        /// <summary>
+        /// Starts recording.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStart_Click(object sender, EventArgs e)
         {
             resetTimer();
@@ -75,6 +83,11 @@ namespace Recorder
             }
         }
 
+        /// <summary>
+        /// Stops recording.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStop_Click(object sender, EventArgs e)
         {
             recorder.stopRecording();
@@ -82,6 +95,9 @@ namespace Recorder
             isRecording = false;
         }
 
+        /// <summary>
+        /// Resets timer.
+        /// </summary>
         private void resetTimer() {
             timer = new Timer();
             timer.Interval = 1000;
@@ -91,6 +107,9 @@ namespace Recorder
             seconds = 0;
         }
 
+        /// <summary>
+        /// Refreshes mic and speaker device lists
+        /// </summary>
         private void refreshDevices()
         {
             btnStart.Enabled = false;
@@ -140,11 +159,22 @@ namespace Recorder
             }
 
         }
+
+        /// <summary>
+        /// Refresh button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btn_Refresh_Click(object sender, EventArgs e)
         {
             refreshDevices();
         }
 
+        /// <summary>
+        /// Mixing button. Starts mixing/levelator/conversion process as backgroundWorker.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnMix_Click(object sender, EventArgs e)
         {
             isMixing = true;
@@ -157,6 +187,11 @@ namespace Recorder
             worker.RunWorkerAsync();
         }
 
+        /// <summary>
+        /// Mixing done.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void backgroundMixingDone(object sender, RunWorkerCompletedEventArgs e)
         {
             lf.Close();
@@ -172,6 +207,9 @@ namespace Recorder
             bool success = recorder.mixAndConvert(CheckBoxLevelator.Checked, CheckBoxConvert.Checked);
         }
 
+        /// <summary>
+        /// Disables UI for recording.
+        /// </summary>
         public void lockForRecording() {
             micBox.Enabled = false;
             speakBox.Enabled = false;
@@ -180,8 +218,12 @@ namespace Recorder
             btnMix.Enabled = false;
             btnStop.Enabled = true;
             progressRecording.Style = ProgressBarStyle.Marquee;
+            btnLocateLevelator.Enabled = false;
         }
 
+        /// <summary>
+        /// Disables UI for mixing.
+        /// </summary>
         public void lockForMixing() {
             Cursor.Current = Cursors.WaitCursor;
             micBox.Enabled = false;
@@ -190,9 +232,13 @@ namespace Recorder
             btnStart.Enabled = false;
             btnMix.Enabled = false;
             btnStop.Enabled = false;
+            btnLocateLevelator.Enabled = false;
 
         }
 
+        /// <summary>
+        /// Enables UI.
+        /// </summary>
         public void unlock()
         {
             Cursor = Cursors.Default;
@@ -204,6 +250,7 @@ namespace Recorder
             btnStop.Enabled = false;
             progressRecording.Style = ProgressBarStyle.Blocks;
             progressRecording.Value = 0;
+            btnLocateLevelator.Enabled = true;
         
         }
 
@@ -243,6 +290,11 @@ namespace Recorder
             open(f);
         }
 
+        /// <summary>
+        /// Open file dialog to select Levelator application.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnLocateLevelator_Click(object sender, EventArgs e)
         {
             OpenFileDialog fd = new OpenFileDialog();
@@ -284,6 +336,11 @@ namespace Recorder
             Properties.Settings.Default.Save();
         }
 
+        /// <summary>
+        /// Close application only if everything is done.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!isRecording && !isMixing)
@@ -307,6 +364,11 @@ namespace Recorder
             open(f);
         }
 
+        /// <summary>
+        /// Timer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Timer_Tick(object sender, EventArgs e)
         {
             seconds += 1;

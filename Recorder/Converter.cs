@@ -20,6 +20,12 @@ namespace Recorder
             MediaFoundationApi.Startup();
         }
 
+        /// <summary>
+        /// Converts given files to mp3s.
+        /// </summary>
+        /// <param name="files"></param>
+        /// <param name="outputNames"></param>
+        /// <param name="window"></param>
         public void startConversion(string[] files, string[] outputNames, MainWindow window) {
             for (int i = 0; i < files.Length; i++) {
                 if (File.Exists(files[i]))

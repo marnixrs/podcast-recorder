@@ -23,15 +23,16 @@ namespace Recorder
         private SoundInSource speakSource;
         private MediaFoundationEncoder micWriter;
         private MediaFoundationEncoder speakWriter;
-        
         private string micFileName, speakFileName, mixFileName, levelFileName, convertedMixFileName, convertedLevelFileName;
-
         private MainWindow window;
 
         public CSCoreRecorder(MainWindow window) {
             this.window = window;
         }
 
+        /// <summary>
+        /// Plays silence.wav on loop in background to ensure there is sound coming out of the speakers at all times. 
+        /// </summary>
         private void playSilence()
         {
             soundout = new WasapiOut();
@@ -40,6 +41,11 @@ namespace Recorder
             soundout.Play();
         }
 
+        /// <summary>
+        /// Starts recoring audio.
+        /// </summary>
+        /// <param name="micDevice">MMDevice for microphone to record.</param>
+        /// <param name="speakDevice">MMdevice for speakers to record.</param>
         public void startRecording(MMDevice micDevice, MMDevice speakDevice) {
             window.lockForRecording();
             playSilence();
@@ -77,6 +83,12 @@ namespace Recorder
             speakCapture.Start();
         }
 
+        /// <summary>
+        /// Mixes the recorded mp3s together into a single wav. Passes the wav to Levelator if level==true, converts all resulting wavs back to mp3s if convert==true. 
+        /// </summary>
+        /// <param name="level">Bool, should the resulting wav be passed to Levelator.</param>
+        /// <param name="convert">Bool, should resulting wav files be converted to mp3.</param>
+        /// <returns></returns>
         public bool mixAndConvert(bool level, bool convert) {
             if (!micFileName.Equals(null) && !speakFileName.Equals(null))
             {
@@ -104,8 +116,11 @@ namespace Recorder
             return false;
         }
 
+        /// <summary>
+        /// Passes the mixed wav file to Levelator.
+        /// </summary>
+        /// <param name="convert">Bool, should the results be converted to mp3s?</param>
         public void levelate(bool convert) {
-            // cmd>levelator.exe [path to wav file]
             ProcessStartInfo start = new ProcessStartInfo();
             string fullpath = Path.GetFullPath(mixFileName);
             if (fullpath.Contains(" ")) {
@@ -133,7 +148,9 @@ namespace Recorder
             
         }
 
-
+        /// <summary>
+        /// Stops recording.
+        /// </summary>
         public void stopRecording() {
             micCapture.Stop();
             speakCapture.Stop();
@@ -166,6 +183,9 @@ namespace Recorder
             window.setLabelSpeakText(speakFileName + "   -   " + size2 + "MB");
         }
 
+        /// <summary>
+        /// Builds file names based on current date/time.
+        /// </summary>
         private void makeFileNames()
         {
             string parse = "yyyy-MM-dd_hhmmss";

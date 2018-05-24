@@ -13,6 +13,9 @@ namespace Recorder
             this.outfile = outfile;
         }
 
+        /// <summary>
+        /// Converts a single wav file to a single mp3 file.
+        /// </summary>
         public void startConvert()
         {
             if (File.Exists(infile))
