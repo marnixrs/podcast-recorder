@@ -189,13 +189,13 @@ namespace Recorder
         private void makeFileNames()
         {
             string parse = "yyyy-MM-dd_hhmmss";
-            micFileName = "" + DateTime.Now.ToString(parse) + "_mic.mp3";
-            speakFileName = "" + DateTime.Now.ToString(parse) + "_speak.mp3";
+            micFileName = "" + DateTime.Now.ToString(parse) + "_mic_mp3.mp3";
+            speakFileName = "" + DateTime.Now.ToString(parse) + "_speak_mp3.mp3";
             mixFileName = "" + DateTime.Now.ToString(parse) + "_mix_wav.wav";
             levelFileName = "" + DateTime.Now.ToString(parse) + "_mix_wav.output.wav";
 
             convertedMixFileName = "" + DateTime.Now.ToString(parse) + "_mix_mp3.mp3";
-            convertedLevelFileName = "" + DateTime.Now.ToString(parse) + "_mix_level_mp3.mp3";
+            convertedLevelFileName = "" + DateTime.Now.ToString(parse) + "_mix_leveled_mp3.mp3";
         }
 
         public string getMixFileName() {

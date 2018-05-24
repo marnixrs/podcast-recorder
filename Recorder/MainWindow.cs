@@ -345,6 +345,7 @@ namespace Recorder
         {
             if (!isRecording && !isMixing)
             {
+                Cursor.Current = Cursors.WaitCursor;
                 Environment.Exit(Environment.ExitCode);
             }
             else {
